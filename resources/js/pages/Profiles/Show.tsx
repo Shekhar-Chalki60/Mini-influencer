@@ -18,9 +18,14 @@ export default function Show({ profile, }: Props) {
         <div className="mx-auto max-w-7xl p-8">
             <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex items-center gap-5">
-                    <img src = { profile.profile_picture_url ?? 'https://placehold.co/150' }
-                        alt={profile.username}
-                        className="h-28 w-28 rounded-full border object-cover shadow"
+                    <img
+                        src={
+                            profile.profile_picture_url ? `/proxy-image?url=${encodeURIComponent(profile.profile_picture_url)}` : 'https://placehold.co/120'
+                        }
+                        alt={profile.username} className="h-24 w-24 rounded-full border object-cover"
+                        onError={(e) => {
+                            e.currentTarget.src = 'https://placehold.co/120';
+                        }}
                     />
                     <div>
                         <h1 className="text-3xl font-bold">@{profile.username}</h1>

@@ -16,6 +16,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'remaining_tokens' => app(\App\Services\RateLimit\TokenBucketService::class)->remaining(),
         ];
     });
+    Route::get('/proxy-image', function (\Illuminate\Http\Request $request) {
+        $url = $request->url;
+        $response = Http::get($url);
+        return response($response->body(), 200,
+            [
+                'Content-Type' => $response->header('Content-Type'),
+            ]
+        );
+    });
 });
 
     Route::get('/healthz', function () {
