@@ -8,7 +8,7 @@ use App\Jobs\ProcessWebhookJob;
 
 class WebhookController extends Controller
 {
-    public function handle(Request $request)
+    public function handle(Request $request, string $provider)
     {
         $payload = $request->getContent();
         $signature = $request->header('X-Webhook-Signature', '');
@@ -18,11 +18,14 @@ class WebhookController extends Controller
             abort(401);
         }
         $nonce = $request->header('X-Webhook-Id');
+        if (! $nonce) {
+            abort(400, 'Missing webhook id');
+        }
         if (Cache::has("webhook:{$nonce}")) {
             abort(409);
         }
         Cache::put("webhook:{$nonce}", true, now()->addDay());
-        ProcessWebhookJob::dispatch($request->all());
+        ProcessWebhookJob::dispatch($provider, $request->all());
         return response()->json([
             'received' => true,
         ]);

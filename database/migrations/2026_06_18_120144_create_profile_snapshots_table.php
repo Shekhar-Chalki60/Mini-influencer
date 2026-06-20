@@ -12,26 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profile_snapshots', function (Blueprint $table) {
-
             $table->id();
-
-            $table->foreignId('profile_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
+            $table->foreignId('profile_id')->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('followers_count');
-
             $table->unsignedBigInteger('following_count');
-
             $table->unsignedBigInteger('posts_count');
-
             $table->timestampTz('captured_at');
-
             $table->timestampsTz();
-$table->index([
-    'profile_id',
-    'captured_at'
-]);
+            $table->index([
+                'profile_id',
+                'captured_at'
+            ]);
         });
     }
 

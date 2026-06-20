@@ -12,40 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profiles', function (Blueprint $table) {
-
             $table->id();
-
             $table->string('username')->unique();
-
-            $table->string('status')
-                ->default('pending');
-
-            $table->unsignedBigInteger('followers_count')
-                ->nullable();
-
-            $table->unsignedBigInteger('following_count')
-                ->nullable();
-
-            $table->unsignedBigInteger('posts_count')
-                ->nullable();
-
-            $table->string('profile_picture_url')
-                ->nullable();
-
+            $table->string('status')->default('pending');
+            $table->unsignedBigInteger('followers_count')->nullable();
+            $table->unsignedBigInteger('following_count')->nullable();
+            $table->unsignedBigInteger('posts_count')->nullable();
+            $table->string('profile_picture_url')->nullable();
             $table->longText('bio')->nullable();
-
-            $table->text('last_error')
-                ->nullable();
-
-            $table->timestampTz('last_refreshed_at')
-                ->nullable();
-
+            $table->text('last_error')->nullable();
+            $table->timestampTz('last_refreshed_at')->nullable();
             $table->timestampsTz();
-
-                $table->index([
-                    'status',
-                    'last_refreshed_at'
-                ]);
+            $table->index([
+                'status',
+                'last_refreshed_at'
+            ]);
         });
     }
 

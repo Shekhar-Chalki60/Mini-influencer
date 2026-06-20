@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ], 500);
         }
     });
-    Route::post('/webhooks/apify', [WebhookController::class, 'handle']);
+    //Route::post('/webhooks/apify', [WebhookController::class, 'handle']);
     Route::post('/webhooks/{provider}', [WebhookController::class, 'handle']);
 
 require __DIR__.'/settings.php';
